@@ -1,0 +1,58 @@
+<div id="west-west" data-options="region:'west',split:true,title:'功能导航',border:false" style="width:200px">
+    <div class="easyui-accordion" data-options="fit:true,border:false">
+        <div title="商品管理" data-options="iconCls:'icon-save',border:false" style="overflow:auto;">
+            <ul id="west-article" class="easyui-tree" data-options="url:'${ctxPath}/admin/west/article.json'">
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function()
+    {
+        $('#west-west .easyui-tree').tree(
+        {
+            onClick: function(node)
+            {
+                if (node.children == null || node.children.length == 0) 
+                {
+                    addTab(node);
+                }
+            }
+        });
+        
+        
+        
+    });
+    function addTab(opt)
+    {
+        var tab = $('#center-tab');
+        if (tab.tabs('exists', opt.text)) 
+        {
+            tab.tabs('select', opt.text);
+        }
+        else 
+        {
+            var url = "${ctxPath}/admin/";
+            if (opt.attributes) 
+            {
+                url = url + opt.attributes.url;
+            }
+            else 
+            {
+                url = url + opt.url;
+            }
+            opt.title = opt.text ? opt.text : opt.title;
+            opt.closable = true;
+            opt.href = url ? url : opt.href;
+            tab.tabs('add', opt);
+        }
+    }
+    
+    function closeNowTab()
+    {
+        var tab = $('#center-tab').tabs('getSelected');
+        var index = $('#center-tab').tabs('getTabIndex', tab);
+        console.info(index);
+        $('#center-tab').tabs('close', index);
+    }
+</script>

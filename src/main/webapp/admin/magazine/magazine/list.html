@@ -1,0 +1,173 @@
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'east',title:'预览'" style="width:25%;padding:10px 10px;overflow-x:hidden">
+        <div class="linxi_wrap">
+            <div class="linxi_content pre-show" id="magazine-magazine-list-preshow">
+            </div>
+            <p style="margin:0 auto;margin-top:80px;font-size:12px">
+                &nbsp;&nbsp;&nbsp;备注： 手机浏览器上不会出现滚动条，会更加美观
+            </p>
+        </div>
+    </div>
+    <div data-options="region:'center',title:'查看',border:false">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'north',title:'过滤条件',collapsible:true" style="height:200px;padding:10px">
+                <p>
+                    <span>内容 :</span>
+                    <input id="magazine-magazine-list-query-content" class="easyui-textbox" type="text" name="content" />
+                </p>
+                <p>
+                    <span>更新时间 :</span>
+                    <input id="magazine-magazine-list-query-start" class="easyui-datebox" type="text" name="start" data-options="editable:false" />
+                    <span>- </span>
+                    <input id="magazine-magazine-list-query-end" class="easyui-datebox" type="text" name="end" data-options="editable:false" />
+                </p>
+                <a href="javascript:void(0)" id="magazine-magazine-list-query" class="easyui-linkbutton" data-options="text:'查询'">
+                </a>
+                <a href="javascript:void(0)" id="magazine-magazine-list-reset" class="easyui-linkbutton" data-options="text:'清空'">
+                </a>
+            </div>
+            <div data-options="region:'center',title:'杂志列表'">
+                <table id="magazine-magazine-list-dg"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //    $(function()
+    //    {
+    $('#magazine-magazine-list-dg').datagrid(
+    {
+        url: magazineListUrl,
+        pagination: true,
+        checkOnSelect: false,
+        selectOnCheck: false,
+        singleSelect: true,
+        fit: true,
+        idField: 'id',
+        columns: [[
+        {
+            field: 'id',
+            checkbox: true,
+            width: 20
+        }, 
+        {
+            field: 'title',
+            title: '杂志标题',
+            width: 200
+        }, 
+        {
+            field: 'createtime',
+            title: '创建时间',
+            width: 160
+        }, 
+        {
+            field: 'updatetime',
+            title: '更新时间',
+            width: 160
+        }, 
+        {
+            field: 'current',
+            title: '当期杂志',
+            width: 160,
+            formatter: function(value)
+            {
+                if (value == 1) 
+                {
+                    return '是';
+                }
+                else 
+                {
+                    return '否';
+                }
+            },
+            styler: function(value, row, index)
+            {
+                if (value == 1) 
+                {
+                    return 'background-color:#ffff00;';
+                }
+            }
+            
+        }, 
+        {
+            field: 'url',
+            "title": "访问地址",
+            width: 600
+        }]],
+        toolbar: [
+        {
+            iconCls: 'icon-edit',
+            text: '预览',
+            handler: function()
+            {
+                var row = $('#magazine-magazine-list-dg').datagrid('getSelected');
+                if (row == null) 
+                {
+                    $.messager.alert('通知', '请先选择一个杂志');
+                }
+                else 
+                {
+                    showMagazine(row.id, null, 'magazine-magazine-list-preshow');
+                }
+            }
+        }, '-', 
+        {
+            iconCls: 'icon-edit',
+            text: '编辑',
+            handler: function()
+            {
+                var row = $('#magazine-magazine-list-dg').datagrid('getSelected');
+                if (row == null) 
+                {
+                    $.messager.alert('通知', '请至少选择一个杂志进行编辑');
+                }
+                else 
+                {
+                    editMagazine(row.id);
+                }
+                
+                
+            }
+        }, '-', 
+        {
+            iconCls: 'icon-add',
+            text: '增加',
+            handler: function()
+            {
+                addMagazine();
+            }
+        }, '-', 
+        {
+            iconCls: 'icon-remove',
+            text: '删除',
+            handler: function()
+            {
+                deleteMagazine();
+            }
+        }, 
+        {
+            iconCls: 'icon-print',
+            text: '杂志生成',
+            handler: function()
+            {
+                buildMagazine();
+            }
+        }]
+    });
+    $('#magazine-magazine-list-query').click(function()
+    {
+        var queryParams = $('#magazine-magazine-list-dg').datagrid('options').queryParams;
+        queryParams.content = $('#magazine-magazine-list-query-content').textbox('getValue');
+        queryParams.start = $('#magazine-magazine-list-query-start').datebox('getValue');
+        queryParams.end = $('#magazine-magazine-list-query-end').datebox('getValue');
+        $("#magazine-magazine-list-dg").datagrid('options').queryParams = queryParams;
+        $("#magazine-magazine-list-dg").datagrid('load');
+    });
+    $('#magazine-magazine-list-reset').click(function()
+    {
+        $('#magazine-magazine-list-query-content').textbox('reset');
+        $('#magazine-magazine-list-query-start').datebox('reset');
+        $('#magazine-magazine-list-query-end').datebox('reset');
+    });
+    //    });
+</script>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>欢迎进入jfire-blog后台管理系统</title>
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+    var ctx = "${ctxPath}";
+</script>
+<link rel="stylesheet" href="${ctxPath}/admin/base/easyui/themes/bootstrap/easyui.css" type="text/css"/>
+<link rel="stylesheet" href="${ctxPath}/admin/base/easyui/themes/icon.css" type="text/css"/>
+<link rel="stylesheet" href="${ctxPath}/admin/base/easyui/themes/color.css" type="text/css"/>
+<link rel="stylesheet" href="${ctxPath}/admin/base/css/jquery.tagsinput.css" type="text/css"/>
+<link rel="stylesheet" href="${ctxPath}/admin/base/css/jquery.loadmask.css" type="text/css"/>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/js/jquery.loadmask.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/easyui/datagrid-detailview.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/js/util.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/js/uploadPreview.min.js"></script>
+<script type="text/javascript" src="${ctxPath}/admin/base/js/jquery.tagsinput.min.js"></script>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:10px;background:#B3DFDA">
+    </div>
+    <%include("west/west.html"){} %>
+    <div data-options="region:'center',border:false">
+        <div id="center-tab" class="easyui-tabs" data-options="fit:true,pill:true">
+        </div>
+    </div>
+    <div id="ctxPath" style="display:none" path="${ctxPath}">
+    </div>
+</body>
+</html>

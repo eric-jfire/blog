@@ -1,0 +1,46 @@
+{
+    "packageNames": [
+        "link.jfire.blog",
+        "link.jfire.sql"
+    ],
+    "beanConfigs": [
+        {
+            "beanName": "link.jfire.blog.service.UploadToQiniuService",
+            "params": {
+                "accessKey": "uzZO3Md5ObNCTrEmWuAi-UsGNXPD4ujS__7ohXgH",
+                "secretKey": "HNFaY2qKJ8Se3ehCG-nBPQkODTNFNDollV5-vRmB",
+                "domain": "http://7xplb5.com1.z0.glb.clouddn.com/"
+            }
+        },
+        {
+            "beanName": "link.jfire.sql.function.impl.SessionFactoryImpl",
+            "params": {
+                "scanPackage": "link.jfire.blog"
+            },
+            "initMethods": [
+                "init"
+            ]
+        }
+    ],
+    "beans": [
+        {
+            "beanName": "dataSource",
+            "className": "com.alibaba.druid.pool.DruidDataSource",
+            "prototype": false,
+            "params": {
+                "jdbcUrl": "jdbc:mysql://localhost:3306/blog?characterEncoding=utf-8",
+                "username": "root",
+                "password": "Starnetsql1019",
+                "testWhileIdle": "true",
+                "maxWait": "500",
+                "useUnfairLock": "true",
+                "removeAbandoned": "true",
+                "removeAbandonedTimeoutMillis": "1800",
+                "logAbandoned": "true",
+                "maxActive": "8",
+                "validationQuery": "select id from user where id=1",
+                "timeBetweenEvictionRunsMillis": "3600000"
+            }
+        }
+    ]
+}

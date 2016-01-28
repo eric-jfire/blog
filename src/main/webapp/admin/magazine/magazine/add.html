@@ -1,0 +1,212 @@
+<!--添加商品到杂志的页面，列表展示的商品，预览使用所有商品的内容生成 -->
+<div class="easyui-layout" data-options="fit:true">
+    <div  class="pre-show" data-options="region:'east',title:'预览'" style="width:25%;padding:10px 10px;overflow-x:hidden">
+        <div class="linxi_wrap">
+            <div class="linxi_content" id="magazine-magazine-add-preshow">
+            </div>
+            <p style="margin:0 auto;margin-top:80px;font-size:12px">
+                &nbsp;&nbsp;&nbsp;备注： 手机浏览器上不会出现滚动条，会更加美观
+            </p>
+        </div>
+    </div>
+    <div data-options="region:'center',title:'包含商品',border:false">
+        <div class="easyui-panel" data-options="height:60,border:false">
+            <p>
+                <span>标题:</span>
+                <input id="magazine-magazine-add-title" class="easyui-textbox" type="text" name="tilte" />
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>是否当期杂志:</span>
+                <select id="magazine-magazine-add-current" class="easyui-combobox" name="current" style="width:200px;">
+                    <option value="true">是</option>
+                    <option value="false">否</option>
+                </select>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <a id="magazine-magazine-add-build" href="#" class="easyui-linkbutton" data-options="text:'保存'"></a>
+            </p>
+        </div>
+        <input id="magezine-magazine-add-id" name="id" style="display:none"/>
+        <table id="magazine-magazine-add-center-dg">
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    //    $(function()
+    //    {
+    $('#magazine-magazine-add-center-dg').datagrid(
+    {
+        fit: true,
+        checkOnSelect: false,
+        selectOnCheck: false,
+        singleSelect: true,
+        columns: [[
+        {
+            field: 'id',
+            checkbox: true,
+            width: 20
+        }, 
+        {
+            field: 'name',
+            title: '商品名称',
+            width: 80
+        }, 
+        {
+            field: 'detail',
+            title: '简要描述',
+            width: 240
+        }, 
+        {
+            field: 'createtime',
+            title: '创建时间',
+            width: 120
+        }, 
+        {
+            field: 'updatetime',
+            title: '更新时间',
+            width: 120
+        }, 
+        {
+            field: 'opt',
+            title: '操作',
+            width: 120,
+            formatter: function(value, row, index)
+            {
+                var btnUp = "<a href=\"#\" class=\"easyui-linkbutton\" onClick=magezineUpCommodity(" + index + ")>上移</a>"
+                var btnDown = "<a href=\"#\" class=\"easyui-linkbutton\" onClick=magezineDownCommodity(" + index + ")>下移</a>";
+                var rows = $('#magazine-magazine-add-center-dg').datagrid('getRows');
+                if (index == 0) 
+                {
+                    return btnDown
+                }
+                else 
+                    if (index == rows.length - 1) 
+                    {
+                        return btnUp;
+                    }
+                    else 
+                    {
+                        return btnUp + "&nbsp;" + btnDown;
+                    }
+            }
+        }]],
+        toolbar: [
+        {
+            iconCls: 'icon-edit',
+            text: '预览',
+            handler: function()
+            {
+                var rows = $('#magazine-magazine-add-center-dg').datagrid('getRows');
+                if (rows == null || rows.length == 0) 
+                {
+                    $.messager.alert('通知', '请至少添加一个商品才能预览');
+                }
+                var ids = [];
+                $.each(rows, function(index, row)
+                {
+                    ids.push(row.id);
+                });
+                showMagazine(null, ids.join(','), "magazine-magazine-add-preshow");
+            }
+        }, '-', 
+        {
+            iconCls: 'icon-add',
+            text: '增加商品',
+            handler: function()
+            {
+                $('#magazine-magazine-add-commoditywindow').window('open');
+                $('#magazine-magazine-add-commodity-dg').datagrid('clearChecked');
+				$('#magazine-magazine-add-commodity-show').html('');
+            }
+        }, '-', 
+        {
+            iconCls: 'icon-remove',
+            text: '删除商品',
+            handler: function()
+            {
+                var rows = $('#magazine-magazine-add-center-dg').datagrid('getChecked');
+                if (rows == null || rows.length == 0) 
+                {
+                    $.messager.alert('通知', '请至少选择一个商品');
+                }
+                else 
+                {
+                    $.each(rows, function(index, data)
+                    {
+                        var rowIndex = $('#magazine-magazine-add-center-dg').datagrid('getRowIndex', data);
+                        $('#magazine-magazine-add-center-dg').datagrid('deleteRow', rowIndex);
+                    })
+                }
+            }
+        }]
+    });
+    $('#magazine-magazine-add-build').click(function()
+    {
+        saveMagazine();
+    });
+    var id = $('#center-tab').tabs('getSelected').panel('options').id;
+    if (id != null) 
+    {
+        $.ajax(
+        {
+            url: getMagazineWithCommodityUrl,
+            dataType: 'json',
+            data: 
+            {
+                id: id
+            },
+            success: function(data)
+            {
+                console.info(data);
+                $('#magezine-magazine-add-id').val(id);
+                $('#magazine-magazine-add-title').textbox('setValue', data.data.title);
+                if (data.data.current) 
+                {
+                    $('#magazine-magazine-add-current').combobox('select', '是');
+                    $('#magazine-magazine-add-current').combobox('setValue', 'true');
+                }
+                else 
+                {
+                    $('#magazine-magazine-add-current').combobox('select', '否');
+                    $('#magazine-magazine-add-current').combobox('setValue', 'false');
+                }
+                $('#magazine-magazine-add-center-dg').datagrid('loadData', data.data.commodities);
+            }
+        });
+    }
+    //    });
+</script>
+<div id="magazine-magazine-add-commoditywindow" class="easyui-window" data-options="title:'添加商品',modal:true,closed:true,widht:300,height:600">
+    <div data-options="border:false,fit:true" class="easyui-layout">
+        <div data-options="region:'north',title:'过滤条件',height:70" style="line-height:45px">
+            <span>内容 :</span>
+            <input id="magazine-magazine-selectCommodity-query-content" class="easyui-textbox" type="text" name="content" />
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <span>更新时间 :</span>
+            <input id="magazine-magazine-selectCommodity-query-start" class="easyui-datebox" type="text" name="start" data-options="editable:false"/>
+            <span>- </span>
+            <input id="magazine-magazine-selectCommodity-query-end" class="easyui-datebox" type="text" name="end" data-options="editable:false" />
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <a id="magazine-magazine-selectCommodity-querybutton" href="javascript:void(0)" class="easyui-linkbutton" data-options="text:'查询'"></a>
+            <span>&nbsp;</span>
+            <a id="magazine-magazine-selectCommodity-resetbutton" href="javascript:void(0)" class="easyui-linkbutton" data-options="text:'清空'"></a>
+        </div>
+        <div  data-options="region:'east',title:'预览'" style="width:25%">
+            <div class="linxi_wrap">
+                <div class="linxi_content pre-show" id="magazine-magazine-add-commodity-show">
+                </div>
+                <p style="margin:0 auto;margin-top:80px;font-size:12px">
+                    &nbsp;&nbsp;&nbsp;备注： 手机浏览器上不会出现滚动条，会更加美观
+                </p>
+            </div>
+        </div>
+        <div data-options="region:'center',title:'列表'">
+            <table id="magazine-magazine-add-commodity-dg">
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //    $(function()
+    //    {
+    initMagazine_magazine_add_commoditywindow();
+    //    });
+</script>

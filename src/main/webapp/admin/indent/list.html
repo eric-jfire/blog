@@ -1,0 +1,318 @@
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'north',title:'过滤条件',collapsible:true,height:150" style="padding:5px">
+        <form id="indent-list-form" class="easyui-form">
+            <p>
+                <span>购买人:</span>
+                <input id="indent-buyerer" class="easyui-textbox" type="text" name="buyer" data-options="width:80"/>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>收件人 :</span>
+                <input id="indent-receiver" class="easyui-textbox" type="text" name="receiver" data-options="width:80" />
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>电话:</span>
+                <input id="indent-phone" class="easyui-textbox" type="text" name="phone" data-options="width:120"/>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>商品名称:</span>
+                <input id="indent-commodity-name" class="easyui-textbox" type="text" name="commodity_names" data-options="width:120"/>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>详细地址:</span>
+                <input id="indent-address" class="easyui-textbox" type="text" name="address" data-options="width:240"/>
+            </p>
+            <p>
+                <span>订单号:</span>
+                <input id="indent-list-orderNo" class="easyui-textbox" type="text" name="order_no"/>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>创建时间 :</span>
+                <input id="indent-list-start" class="easyui-datebox" type="text" name="start" data-options="editable:false" />
+                <span>- </span>
+                <input id="indent-list-end" class="easyui-datebox" type="text" name="end" data-options="editable:false" />
+            </p>
+        </form>
+        <a id="indent-list-query" class="easyui-linkbutton" data-options="text:'查询',width:50"></a>
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        <a id="indent-list-reset" class="easyui-linkbutton" data-options="text:'清空',width:50"></a>
+    </div>
+    <div data-options="region:'center',title:'订单列表'">
+        <table id="indent-list-dg">
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#indent-list-query').click(function()
+    {
+        $('#indent-list-dg').datagrid('options').queryParams = $('#indent-list-form').serializeJson();
+        $('#indent-list-dg').datagrid('load');
+    });
+    $('#indent-list-reset').click(function()
+    {
+        $('#indent-list-form').serializeJson();
+        $('#indent-list-form').form('reset');
+    });
+    $('#indent-list-dg').datagrid(
+    {
+        url: indentListUrl,
+        pagination: true,
+        fit: true,
+        idField: 'id',
+        columns: [[
+        {
+            field: 'id',
+            checkbox: true,
+            width: 20
+        }, 
+        {
+            field: 'order_no',
+            title: '订单号',
+            halign: 'center',
+            width: 200
+        }, 
+        {
+            field: 'createtime',
+            title: '创建时间',
+            halign: 'center',
+            width: 160
+        }, 
+        {
+            field: 'delivery_price',
+            title: '快递费',
+            halign: 'center',
+            width: 60
+        }, 
+        {
+            field: 'commodity_total',
+            title: '商品总价',
+            halign: 'center',
+            width: 60
+        }, 
+        {
+            field: 'total',
+            title: '全部费用',
+            halign: 'center',
+            width: 60
+        }, 
+        {
+            field: 'buyer',
+            title: '购买人',
+            halign: 'center',
+            width: 70
+        }, 
+        {
+            field: 'state',
+            title: '状态',
+            halign: 'center',
+            width: 50,
+            formatter: function(value, row, index)
+            {
+                switch (value)
+                {
+                    case 0:
+                        return '未付款';
+                    case 1:
+                        return '未发货';
+                    case 2:
+                        return '已发货';
+                    case 3:
+                        return '已送达';
+                    case 4:
+                        return '确认收到';
+                    case -1:
+                        return '订单关闭';
+                }
+            }
+        }, 
+        {
+            field: 'delivery_no',
+            title: '快递单号',
+            halign: 'center',
+            width: 150
+        }, 
+        {
+            field: 'receiver',
+            title: '收件人',
+            halign: 'center',
+            width: 70
+        }, 
+        {
+            field: 'phone',
+            title: '电话',
+            halign: 'center',
+            width: 90
+        }, 
+        {
+            field: 'address',
+            title: '地址',
+            halign: 'center',
+            width: 260
+        }]],
+        toolbar: [
+        {
+            iconCls: 'icon-edit',
+            text: '发货',
+            handler: function()
+            {
+                var row = $('#indent-list-dg').datagrid('getSelected');
+                if (row == null) 
+                {
+                    $.messager.alert('通知', '请先选择一个订单');
+                }
+                else 
+                    if (row.state != 1) 
+                    {
+                        $.messager.alert('通知', '发货只能针对未发货订单');
+                    }
+                    else 
+                    {
+                        $('#indent-list-send-order-no').html(row.order_no);
+                        $('#indent-list-send-delivery_no').textbox('setValue', '');
+                        $('#indent-list-send-window').window('open');
+                    }
+            }
+        }, '-', 
+        {
+            iconCls: 'icon-edit',
+            text: '修改价格',
+            handler: function()
+            {
+                var row = $('#indent-list-dg').datagrid('getSelected');
+                if (row == null) 
+                {
+                    $.messager.alert('通知', '请先选择一个订单');
+                }
+                else 
+                    if (row.state != 0) 
+                    {
+                        $.messager.alert('通知', '修改价格只能针对未付款订单');
+                    }
+                    else 
+                    {
+                        $('#indent-list-priceForm').form('reset');
+                        $('#indent-list-priceForm').form('load', 
+                        {
+                            delivery_price: row.delivery_price,
+                            commodity_total: row.commodity_total
+                        })
+                        $('#indent-list-changeprice-order-no').html(row.order_no);
+                        $('#indent-list-changeprice-window').window('open');
+                    }
+            }
+        }],
+        view: detailview,
+        detailFormatter: function(rowIndex, rowData)
+        {
+            var detaiViewStr = '';
+            $.each(rowData.details, function(index, value)
+            {
+                detaiViewStr += '<div style="height:70px;line-height:70px"><div style=" float:left;width:60px; height:60px;margin-left:10px;margin-top:10px;"><img src="' + value.commodity_cover + '" style="width:60px;height:60px;"/></div><span style="margin-left:50px;font-size:14px;color:#555;display:block;float:left;width:200px"><span style="color:#666;">商品名称</span><span style="margin-left:10px;color:#000;">' + value.commodity_name + '</span></span><span style="margin-left:50px;font-size:14px;color:#555;display:block;float:left;width:150px"><span style="color:#666;">单价</span><span style="margin-left:10px;color:#000;">¥' + value.commodity_price + '</span></span><span style="margin-left:50px;font-size:14px;color:#555;display:block;float:left;width:150px"><span>购买数量</span><span class="shuliang111" style="color:#111;margin-left:10px;">' + value.num + '</span></span><div style="clear:both"></div></div>';
+            });
+            return detaiViewStr;
+        }
+    });
+</script>
+<div id="indent-list-send-window" class="easyui-window" data-options="title:'发货',closed:true,modal:true,width:230,height:180" style="padding:10px">
+    <p>
+        <span>订单号:</span>
+        <span id="indent-list-send-order-no"></span>
+    </p>
+    <p>
+        <span>快递单号:</span>
+        <input id="indent-list-send-delivery_no" class="easyui-textbox" type="text" name="delivery_no" data-options="width:130" />
+    </p>
+    <a id="indent-list-send-okbtn" class="easyui-linkbutton" data-options="text:'保存',width:196"></a>
+</div>
+<div id="indent-list-changeprice-window" class="easyui-window" data-options="title:'修改价格',closed:true,modal:true,width:230,height:220" style="padding:10px">
+    <form id="indent-list-priceForm" method="post">
+        <p>
+            <span>订单号:</span>
+            <span id="indent-list-changeprice-order-no"></span>
+        </p>
+        <p>
+            <span>快递费:</span>
+            <input class="easyui-textbox" type="text" name="delivery_price" data-options="width:130" />
+        </p>
+        <p>
+            <span>商品总价:</span>
+            <input class="easyui-textbox" type="text" name="commodity_total" data-options="width:130" />
+        </p>
+        <a id="indent-list-changeprice-okbtn" class="easyui-linkbutton" data-options="text:'保存',width:196"></a>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#indent-list-send-okbtn').click(function()
+    {
+        $.ajax(
+        {
+            url: indetnSendUrl,
+            dataType: 'json',
+            data: 
+            {
+                id: $('#indent-list-dg').datagrid('getSelected').id,
+                delivery_no: $('#indent-list-send-delivery_no').textbox('getValue')
+            },
+            type: 'post',
+            success: function(data)
+            {
+                if (data.success) 
+                {
+                    $.messager.show(
+                    {
+                        title: '通知',
+                        msg: '发货信息成功',
+                        timeout: 3000,
+                        showType: 'slide'
+                    });
+                    $('#indent-list-dg').datagrid('reload');
+                    $('#indent-list-send-window').window('close');
+                }
+                else 
+                {
+                    $.messager.show(
+                    {
+                        title: '通知',
+                        msg: data.msg,
+                        timeout: 3000,
+                        showType: 'slide'
+                    });
+                    $('#indent-list-send-window').window('close');
+                }
+            }
+        });
+    });
+    $('#indent-list-changeprice-okbtn').click(function()
+    {
+        $('#indent-list-priceForm').form('submit', 
+        {
+            url: indentChangePriceUrl,
+            queryParams: 
+            {
+                id: $('#indent-list-dg').datagrid('getSelected').id
+            },
+            success: function(data)
+            {
+                var result = jQuery.parseJSON(data);
+                console.info(result);
+                if (result.success) 
+                {
+                    $.messager.show(
+                    {
+                        title: '通知',
+                        msg: '发货信息成功',
+                        timeout: 3000,
+                        showType: 'slide'
+                    });
+                    $('#indent-list-dg').datagrid('reload');
+                    $('#indent-list-changeprice-window').window('close');
+                }
+                else 
+                {
+                    $.messager.show(
+                    {
+                        title: '通知',
+                        msg: data.msg,
+                        timeout: 3000,
+                        showType: 'slide'
+                    });
+                    $('#indent-list-changeprice-window').window('close');
+                }
+            }
+        });
+    });
+</script>

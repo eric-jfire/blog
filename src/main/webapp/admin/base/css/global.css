@@ -1,0 +1,223 @@
+/* CSS Document */
+*,*:before,*:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+}
+
+* {
+	margin: 0;
+	padding: 0
+}
+/*float*/
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+input:focus,select:focus,textarea:focus,button:focus {
+	outline: none;
+}
+/*reset*/
+body,p,form,input,button,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6 {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+img {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+	border: 0;
+}
+
+img,input {
+	vertical-align: middle;
+}
+
+select {
+	background: none;
+}
+
+button,select,input {
+	font-size: 14px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-size: 100%;
+}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section
+	{
+	display: block;
+	margin: auto;
+}
+
+ol,ul {
+	list-style: none;
+}
+
+blockquote,q {
+	quotes: none;
+}
+
+blockquote:before,blockquote:after,q:before,q:after {
+	content: '';
+	content: none;
+}
+
+ins {
+	text-decoration: none;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body {
+	line-height: 1.4;
+	font-size: 14px;
+	color: #282828;
+	-webkit-text-size-adjust: none;
+	font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial,
+		"Microsoft YaHei", FreeSans, Arimo, "Droid Sans",
+		"wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3",
+		sans-serif;
+	margin: 0 auto;
+	background: #fff;
+	position: relative;
+}
+
+.wrap {
+	height: 300px;
+	width: 100%;
+	margin-top: 140px;
+}
+
+.bg {
+	height: 240px;
+	background: #d0dac9;
+	margin-top: 75px;
+	box-shadow: 0 2px 10px #3f4b36;
+}
+
+.bg img {
+	height: 200px;
+	margin-left: 35%;
+	margin-top: 20px;
+}
+
+.kuang {
+	height: 340px;
+	width: 300px;
+	background: #f2e2b8;
+	position: absolute;
+	top: -50px;
+	left: 55%;
+	border-radius: 5px;
+	box-shadow: 0 10px 0 #77502a;
+}
+
+.biaoti {
+	height: 50px;
+	background: #c1b69b;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	line-height: 50px;
+	color: #fff;
+	text-align: center;
+	font-size: 18px;
+}
+
+.biaodan {
+	margin-top: 50px;
+	padding: 0 10%;
+	color: #694115;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: right;
+}
+
+p input {
+	border: 1px solid #896136;
+	border-radius: 10px;
+	margin-left: 8%;
+	height: 35px;
+	text-indent: 1em;
+	width: 75%;
+}
+
+.biaodan p {
+	margin-bottom: 20px;
+}
+
+.forget {
+	color: #896136;
+	font-weight: normal;
+	font-size: 13px;
+}
+
+.forget a:link,.forget a:visited {
+	color: #896136;
+	text-decoration: none;
+}
+
+.forget a:hover {
+	text-decoration: underline;
+	color: #fff；
+}
+
+.btn {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.btn button {
+	width: 70%;
+	background-color: #c4864e;
+	border: none;
+	border-radius: 6px;
+	height: 32px;
+	color: #fff;
+	box-shadow: 0 4px 0 #5f3c1b;
+	layer-background-color: red;
+}
+
+.langhua {
+	margin-top: 200px;
+	text-align: center;
+	color: #666;
+	font-size: 12px;
+	-webkit-box-reflect: below 0
+		-webkit-linear-gradient(transparent, transparent 50%, rgba(255, 255, 255
+		, .3) );
+}
+
+.langhua img {
+	height: 20px;
+}
+
+.langhua span {
+	
+}
+
+.cuowutishi {
+	color: #c40000;
+	text-align: left;
+}

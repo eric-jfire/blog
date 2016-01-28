@@ -1,0 +1,18 @@
+<script type="text/javascript">
+var commodityListUrl = '${ctxPath}/CommodityAction/list';
+var getCommodityUrl = '${ctxPath}/CommodityAction/get';
+var deleteCommoditysUrl = '${ctxPath}/CommodityAction/delete';
+var commodityStateChangeUrl = '${ctxPath}/CommodityAction/stateChange';
+var magazineListUrl = '${ctxPath}/MagazineAction/list';
+var getMagazineWithCommodityUrl = '${ctxPath}/MagazineAction/getWithCommoditys';
+var saveMagazineUrl = '${ctxPath}/MagazineAction/save'
+var showMagazineUrl = '${ctxPath}/MagazineAction/show';
+var deleteMagazineUrl = '${ctxPath}/MagazineAction/delete';
+var buildMagazineUrl = '${ctxPath}/MagazineAction/build';
+var invoicingListUrl = '${ctxPath}/InvoicingAction/list';
+var invoicingAddUrl = '${ctxPath}/InvoicingAction/add';
+var indentListUrl = '${ctxPath}/IndentAction/list';
+var indetnSendUrl = '${ctxPath}/IndentAction/send';
+var indentChangePriceUrl = '${ctxPath}/IndentAction/changePrice';
+var userListUrl = '${ctxPath}/UserAction/list';
+</script>

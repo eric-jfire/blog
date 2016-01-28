@@ -1,0 +1,18 @@
+
+[
+{
+    "text"       : "文章列表",
+    "iconCls"    : "icon-save",
+    "attributes" :
+    {
+        "url" : "article/list.html"
+    }
+},
+{
+    "text"       : "编写文章",
+    "iconCls"    : "icon-save",
+    "attributes" :
+    {
+        "url" : "article/add.html"
+    }
+}]

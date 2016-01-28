@@ -1,0 +1,10 @@
+
+[
+{
+    "text"       : "用户管理",
+    "iconCls"    : "icon-save",
+    "attributes" :
+    {
+        "url" : "user/list.html"
+    }
+}]
