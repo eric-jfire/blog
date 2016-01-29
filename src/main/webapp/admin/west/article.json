@@ -15,4 +15,12 @@
     {
         "url" : "article/add.html"
     }
+},
+{
+    "text"       : "编写markdown文章",
+    "iconCls"    : "icon-save",
+    "attributes" :
+    {
+        "url" : "article/markdown.html"
+    }
 }]

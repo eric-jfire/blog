@@ -46,7 +46,7 @@
     {
         url: ctx + '/admin/articles/query',
         fit: true,
-		type:'get',
+        type: 'get',
         checkOnSelect: false,
         selectOnCheck: false,
         singleSelect: true,
@@ -59,9 +59,13 @@
             width: 20
         }, 
         {
+            field: 'markdown',
+            hidden: true
+        }, 
+        {
             field: 'title',
             title: '标题',
-            width: 200
+            width: 400
         }, 
         {
             field: 'category',
@@ -77,6 +81,74 @@
             field: 'updatetime',
             title: '最后更新时间',
             width: 200
-        }]]
+        }]],
+        toolbar: [
+        {
+            iconCls: 'icon-remove',
+            text: '删除',
+            handler: function()
+            {
+                if ($('#article-list-table').datagrid('getSelected') == null) 
+                {
+                    $.messager.alert("通知", "请先选择一条记录");
+                    return;
+                }
+                var checkedItems = $('#article-list-table').datagrid('getChecked');
+                var names = [];
+                $.each(checkedItems, function(index, item)
+                {
+                    names.push(item.id);
+                });
+                $.ajax(
+                {
+                    url: ctx + "/admin/articles/" + names.join('-'),
+                    type: 'delete',
+                    dataType: 'json',
+                    success: function()
+                    {
+                        $.messager.show(
+                        {
+                            title: '通知',
+                            msg: '删除成功',
+                            timeout: 3000,
+                            showType: 'slide'
+                        });
+                        $('#article-list-table').datagrid('load');
+                    }
+                });
+            }
+        }, '-', 
+        {
+            iconCls: 'icon-edit',
+            text: '编辑',
+            handler: function()
+            {
+                if ($('#article-list-table').datagrid('getSelected') == null) 
+                {
+                    $.messager.alert("通知", "请先选择一条记录");
+                    return;
+                }
+                var row = $('#article-list-table').datagrid('getSelected');
+                if (row.markdown) 
+                {
+                    addTab(
+                    {
+                        text: '文章编辑',
+                        id: row.id,
+                        url: '/article/markdown.html'
+                    });
+                }
+                else 
+                {
+                    addTab(
+                    {
+                        text: '文章编辑',
+                        id: row.id,
+                        url: '/article/add.html'
+                    });
+                }
+                
+            }
+        }, ]
     });
 </script>
