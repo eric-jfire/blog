@@ -38,4 +38,8 @@ public class BaseDao
         return session;
     }
     
+    public ArticleOp getArticleOp()
+    {
+        return getSession().getMapper(ArticleOp.class);
+    }
 }

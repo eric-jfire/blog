@@ -1,15 +1,7 @@
 <div id="west-west" data-options="region:'west',split:true,title:'功能导航',border:false" style="width:200px">
     <div class="easyui-accordion" data-options="fit:true,border:false">
-        <div title="商品管理" data-options="iconCls:'icon-save',border:false" style="overflow:auto;">
-            <ul id="west-commodity" class="easyui-tree" data-options="url:'${ctxPath}/admin/west/commodityMenu.json'">
-            </ul>
-        </div>
-        <div title="订单管理" data-options="iconCls:'icon-save',border:false" style="overflow:auto;">
-            <ul id="west-indent" class="easyui-tree" data-options="url:'${ctxPath}/admin/west/indent.json'">
-            </ul>
-        </div>
-        <div title="用户管理" data-options="iconCls:'icon-save',border:false,selected:true" style="overflow:auto;">
-            <ul id="west-indent" class="easyui-tree" data-options="url:'${ctxPath}/admin/west/user.json'">
+        <div title="文章管理" data-options="iconCls:'icon-save',border:false" style="overflow:auto;">
+            <ul id="west-article" class="easyui-tree" data-options="url:'${ctxPath}/admin/west/article.json'">
             </ul>
         </div>
     </div>
@@ -27,8 +19,8 @@
                 }
             }
         });
-		
-		
+        
+        
         
     });
     function addTab(opt)
@@ -49,9 +41,9 @@
             {
                 url = url + opt.url;
             }
-            opt.title = opt.text?opt.text:opt.title;
+            opt.title = opt.text ? opt.text : opt.title;
             opt.closable = true;
-            opt.href = url?url:opt.href;
+            opt.href = url ? url : opt.href;
             tab.tabs('add', opt);
         }
     }

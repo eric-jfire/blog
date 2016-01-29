@@ -14,9 +14,9 @@
             <span> - </span>
             <input id="article-list-query-end" class="easyui-datebox" type="text" name="end" data-options="editable:false" />
         </p>
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="queryArticles()" data-options="text:'查询'"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="queryCommodity()" data-options="text:'查询'"></a>
         <span> </span>
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="resetArticlesQuery()" data-options="text:'清空'"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="resetCommodityQuery()" data-options="text:'清空'"></a>
     </div>
     <div data-options="region:'center',title:'列表'">
         <table id="article-list-table"></table>
@@ -44,9 +44,8 @@
     
     $('#article-list-table').datagrid(
     {
-        url: ctx + '/admin/articles/query',
+        url: ctx + '/admin/articles/list',
         fit: true,
-		type:'get',
         checkOnSelect: false,
         selectOnCheck: false,
         singleSelect: true,
@@ -61,7 +60,7 @@
         {
             field: 'title',
             title: '标题',
-            width: 200
+            width: 100
         }, 
         {
             field: 'category',
@@ -71,12 +70,12 @@
         {
             field: 'createtime',
             title: '创建时间',
-            width: 200
+            width: 100
         }, 
         {
             field: 'updatetime',
             title: '最后更新时间',
-            width: 200
+            width: 100
         }]]
     });
 </script>
