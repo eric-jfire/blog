@@ -146,18 +146,22 @@
                 var url;
                 if (row.markdown) 
                 {
-                    url = '/article/markdown.html';
+                    addTab(
+                    {
+                        text: 'markdown编辑',
+                        id: row.id,
+                        url: '/article/markdown.html'
+                    });
                 }
                 else 
                 {
-                    url = '/article/add.html';
+                    addTab(
+                    {
+                        text: '富文本编辑',
+                        id: row.id,
+                        url: '/article/add.html'
+                    });
                 }
-                addTab(
-                {
-                    text: '文章编辑',
-                    id: row.id,
-                    url: url
-                });
             }
         }]
     });

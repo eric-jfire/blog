@@ -21,7 +21,6 @@
 <script type="text/javascript">
     $(function()
     {
-    
         var editor = editormd("article-markdown-content", 
         {
             width: "100%",
@@ -33,7 +32,7 @@
             path: ctx + "/admin/base/editor.md/lib/",
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: ctx + "/admin/imgs",
+            imageUploadURL: ctx + "/imgs/md",
             toolbarIcons: function()
             {
                 return ["undo", "redo", "image"]
@@ -55,6 +54,7 @@
                             if (result.success) 
                             {
                                 $('#article-markdown-center').unmask();
+								$('#article-markdown-title').textbox('setValue',result.data.title);
                                 editor.setMarkdown(result.data.text_content);
                             }
                             else 
@@ -63,6 +63,36 @@
                                 $('#article-markdown-center').unmask();
                             }
                         }
+                    });
+					 $('#article-markdown-submit').click(function()
+                    {
+                        $.ajax(
+                        {
+                            url: ctx + '/article/'+id,
+                            type: 'post',
+                            data: 
+                            {
+                                markdown: true,
+                                title: $('#article-markdown-title').textbox('getValue'),
+                                text_content: editor.getMarkdown(),
+                                html_content: editor.getHTML()
+                            },
+                            dataType: 'json',
+                            success: function(result)
+                            {
+                                if (result.success) 
+                                {
+                                    $.messager.alert('消息', '文章已经保存成功', 'info', function()
+                                    {
+                                        closeNowTab();
+                                    });
+                                }
+                                else 
+                                {
+                                    alert('失败');
+                                }
+                            }
+                        });
                     });
                 }
                 else 

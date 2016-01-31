@@ -27,7 +27,7 @@ public class ArticleService
         else
         {
             article.setUpdatetime(new Date());
-            baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime");
+            baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime,title");
         }
     }
     

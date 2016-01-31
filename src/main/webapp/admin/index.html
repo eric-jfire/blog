@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="${ctxPath}/admin/base/css/jquery.tagsinput.css" type="text/css"/>
 <link rel="stylesheet" href="${ctxPath}/admin/base/css/jquery.loadmask.css" type="text/css"/>
 <link rel="stylesheet" href="${ctxPath}/admin/base/editor.md/css/editormd.min.css" type="text/css"/>
+<link rel="stylesheet" href="${ctxPath}/admin/base/dist/css/wangEditor.min.css" type="text/css"/>
 <script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js">
 </script>
 <script type="text/javascript" src="${ctxPath}/admin/base/js/jquery.loadmask.js">
@@ -24,25 +25,18 @@
 </script>
 <script type="text/javascript" src="${ctxPath}/admin/base/easyui/locale/easyui-lang-zh_CN.js">
 </script>
-<script type="text/javascript" src="${ctxPath}/admin/base/ueditor/ueditor.config.js">
-</script>
-<script type="text/javascript" src="${ctxPath}/admin/base/ueditor/ueditor.all.js">
-</script>
 <script type="text/javascript" src="${ctxPath}/admin/base/js/util.js">
 </script>
 <script type="text/javascript" src="${ctxPath}/admin/base/js/uploadPreview.min.js">
 </script>
 <script type="text/javascript" src="${ctxPath}/admin/base/editor.md/editormd.js">
 </script>
+<script type="text/javascript" src="${ctxPath}/admin/base/dist/js/wangEditor.min.js">
+</script>
 </head>
 <script type="text/javascript">
     function onCloseTab()
     {
-        var editor = UE.getEditor('article-add-content');
-        if (editor != null) 
-        {
-            editor.destroy();
-        }
     }
 </script>
 <body class="easyui-layout">
