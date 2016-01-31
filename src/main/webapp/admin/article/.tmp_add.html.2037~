@@ -1,4 +1,6 @@
-<div class="easyui-layout" data-options="fit:true">
+<div class="easyui-layout" data-options="fit:true,onBeforeClose:function(){
+ UE.getEditor('article-add-content').destroy();
+ return true}">
     <div data-options="region:'north',title:'过滤条件',collapsible:true" style="height:120px">
         <p>
             <span>
@@ -32,6 +34,10 @@
         ue.render('article-add-content');
         if (id == null) 
         {
+            ue.ready(function()
+            {
+                ue.setContent('');
+            });
             $('#article-add-submit').click(function()
             {
                 $.ajax(

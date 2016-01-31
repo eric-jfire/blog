@@ -58,7 +58,7 @@
     
     $('#article-list-table').datagrid(
     {
-        url: ctx + '/query/articles',
+        url: ctx + '/admin/query/articles',
         fit: true,
         type: 'get',
         checkOnSelect: false,
@@ -115,7 +115,7 @@
                 });
                 $.ajax(
                 {
-                    url: ctx + "/articles/" + names.join('-'),
+                    url: ctx + "/admin/articles/" + names.join('-'),
                     type: 'delete',
                     dataType: 'json',
                     success: function()

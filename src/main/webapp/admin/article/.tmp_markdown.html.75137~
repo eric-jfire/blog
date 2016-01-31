@@ -1,0 +1,95 @@
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'north',collapsible:true,border:false" style="height:60px">
+        <p>
+            <span>
+                标题 :
+            </span>
+            <input id="article-markdown-title" class="easyui-textbox" type="text" name="title" />
+            <input id="article-markdown-id" style="display:none"/>
+            <span>
+            </span>
+            <a id="article-markdown-submit" href="javascript:void(0)" class="easyui-linkbutton" data-options="text:'提交'">
+            </a>
+        </p>
+    </div>
+    <div id="article-markdown-content" data-options="region:'center',border:false,fit:true" style="overflow-y:hidden">
+        <textarea style="display:none"></textarea>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function()
+    {
+    
+        var editor = editormd("article-markdown-content", 
+        {
+            width: "90%",
+            height: "100%",
+            syncScrolling: "single",
+            saveHTMLToTextarea: true,
+            flowChart: true,
+            sequenceDiagram: true,
+            path: ctx + "/admin/base/editor.md/lib/",
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: ctx + "/admin/imgs",
+            toolbarIcons: function()
+            {
+                return ["undo", "redo", "image"]
+            }
+        });
+        $('#article-markdown-submit').click(function()
+        {
+            $.ajax(
+            {
+                url: ctx + '/admin/articles',
+                type: 'post',
+                data: 
+                {
+                    id: $('#article-markdown-id').val(),
+                    markdown: true,
+                    title: $('#article-markdown-title').textbox('getValue'),
+                    text_content: editor.getMarkdown(),
+                    html_content: editor.getHTML()
+                },
+                dataType: 'json',
+                success: function(result)
+                {
+                    if (result.success) 
+                    {
+                        $.messager.alert('消息', '文章已经保存成功', 'info', function()
+                        {
+                            closeNowTab();
+                        });
+                    }
+                    else 
+                    {
+                        alert('失败');
+                    }
+                }
+            });
+        });
+        var id = $('#center-tab').tabs('getSelected').panel('options').id;
+        if (id != null) 
+        {
+            $('#article-markdown-content').mask("载入中")
+            $.ajax(
+            {
+                url: ctx + '/admin/article/' + id,
+                type: 'get',
+                success: function(result)
+                {
+                    if (result.success) 
+                    {
+                        $('#article-markdown-content').unmask();
+                        editor.setMarkdown(result.text_content);
+                    }
+                    else 
+                    {
+                        alert('失败');
+						  $('#article-markdown-content').unmask();
+                    }
+                }
+            });
+        }
+    });
+</script>

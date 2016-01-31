@@ -22,17 +22,30 @@ public class ArticleService
             article.setCreatetime(new Date());
             article.setUpdatetime(article.getCreatetime());
             article.setType(Article.NORMAL);
+            baseDao.save(article);
         }
         else
         {
             article.setUpdatetime(new Date());
+            baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime");
         }
-        baseDao.save(article);
     }
     
     @AutoCloseResource
     public void list(MysqlPage page, String title)
     {
         baseDao.getArticleOp().list(title, page);
+    }
+    
+    @AutoCloseResource
+    public Article get(int id)
+    {
+        return baseDao.getSession().get(Article.class, id);
+    }
+    
+    @Transaction
+    public void delete(int[] ids)
+    {
+        baseDao.getArticleOp().delete(ids);
     }
 }

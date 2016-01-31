@@ -1,18 +1,16 @@
-<div class="easyui-layout" data-options="fit:true">
+<div class="easyui-layout" data-options="fit:true,onBeforeClose:function(){
+ UE.getEditor('article-add-content').destroy();
+ return true}">
     <div data-options="region:'north',title:'过滤条件',collapsible:true" style="height:120px">
         <p>
-            <span>
-                标题 :
-            </span>
+            <span>标题 :</span>
             <input id="article-add-title" class="easyui-textbox" type="text" name="title" />
             <input id="article-add-id" style="display:none"/>
         </p>
-        <a id="article-add-submit" href="javascript:void(0)" class="easyui-linkbutton" data-options="text:'提交'">
-        </a>
+        <a id="article-add-submit" href="javascript:void(0)" class="easyui-linkbutton" data-options="text:'提交'"></a>
     </div>
     <div data-options="region:'center',border:false,fit:true" style="overflow-y:hidden">
-        <div id="article-add-content" name="content" type="text/plain">
-        </div>
+        <div  id="article-add-content" name="content" type="text/plain"></div>
     </div>
 </div>
 <script type="text/javascript">
@@ -24,7 +22,7 @@
             UEDITOR_HOME_URL: ctx + '/admin/base/ueditor/',
             serverUrl: ctx + '/ueditorConfigAction/jsConfig',
             toolbars: [['fullscreen', 'source', 'undo', 'redo', 'snapscreen', 'preview', 'simpleupload', 'insertimage', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']],
-            initialFrameHeight: $(window).height() - 246,
+            initialFrameHeight: $(window).height()-246,
             initialFrameWidth: '100%',
             autoHeightEnabled: false,
             enableAutoSave: false
@@ -32,17 +30,21 @@
         ue.render('article-add-content');
         if (id == null) 
         {
+            ue.ready(function()
+            {
+                ue.setContent('');
+            });
             $('#article-add-submit').click(function()
             {
                 $.ajax(
                 {
-                    url: ctx + '/articles',
+                    url: ctx + '/admin/articles',
                     type: 'post',
                     data: 
                     {
                         markdown: false,
-                        text_content: ue.getContent(),
-                        html_content: ue.getContent(),
+                        text_content: UE.getEditor('article-add-content').getContent(),
+                        html_content: UE.getEditor('article-add-content').getContent(),
                         title: $('#article-add-title').textbox('getText')
                     },
                     success: function(result)
@@ -66,9 +68,12 @@
         {
             $.ajax(
             {
-                url: ctx + "/article/" + id,
+                url: ctx + "/admin/article",
                 type: 'get',
-                dataType: 'json',
+                data: 
+                {
+                    id: id
+                },
                 success: function(result)
                 {
                     if (result.success) 
@@ -81,14 +86,14 @@
                         });
                         $.ajax(
                         {
-                            url: ctx + '/article',
+                            url: ctx + '/admin/article',
                             type: 'put',
                             data: 
                             {
                                 id: $('#article-add-id').val(),
                                 markdown: false,
-                                html_content: ue.getContent(),
-                                text_content: ue.getContent(),
+                                html_content: UE.getEditor('article-add-content').getContent(),
+                                text_content: UE.getEditor('article-add-content').getContent(),
                                 title: $('#article-add-title').textbox('getText')
                             }
                         });
@@ -98,35 +103,6 @@
                         alert(result.data);
                     }
                 }
-            });
-			 $('#article-add-submit').click(function()
-            {
-                $.ajax(
-                {
-                    url: ctx + '/article/'+id,
-                    type: 'post',
-                    data: 
-                    {
-                        markdown: false,
-                        text_content: ue.getContent(),
-                        html_content: ue.getContent(),
-                        title: $('#article-add-title').textbox('getText')
-                    },
-                    success: function(result)
-                    {
-                        if (result.success) 
-                        {
-                            $.messager.alert('消息', '文章已经保存成功', 'info', function()
-                            {
-                                closeNowTab();
-                            });
-                        }
-                        else 
-                        {
-                            $.messager.alert('警告', '保存异常', 'error');
-                        }
-                    }
-                });
             });
         }
         

@@ -13,7 +13,7 @@ import link.jfire.mvc.binder.UploadItem;
 import link.jfire.mvc.config.ResultType;
 
 @Resource
-@ActionClass("admin/imgs")
+@ActionClass("imgs")
 public class ImgsAction
 {
     @Resource

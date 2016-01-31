@@ -1,9 +1,7 @@
 package link.jfire.blog.action;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import link.jfire.baseutil.collection.StringCache;
-import link.jfire.blog.entity.Article;
 import link.jfire.blog.service.ArticleService;
 import link.jfire.blog.vo.BaseResult;
 import link.jfire.codejson.function.WriterAdapter;
@@ -11,13 +9,14 @@ import link.jfire.codejson.strategy.WriteStrategy;
 import link.jfire.core.bean.annotation.field.InitMethod;
 import link.jfire.mvc.annotation.ActionClass;
 import link.jfire.mvc.annotation.ActionMethod;
+import link.jfire.mvc.annotation.ContentType;
 import link.jfire.mvc.annotation.RequestMethod;
-import link.jfire.mvc.annotation.RequestParam;
 import link.jfire.mvc.config.ResultType;
+import link.jfire.sql.page.MysqlPage;
 
 @Resource
-@ActionClass("article")
-public class ArticleAction
+@ActionClass("query")
+public class QueryAction
 {
     @Resource
     private ArticleService articleService;
@@ -31,7 +30,7 @@ public class ArticleAction
             public void write(Object field, StringCache cache, Object entity)
             {
                 String value = (String) field;
-                value = value.replace("\"", "\\\"").replace("\r\n", "\\r\\n").replace("\n", "\\n").replace("\r", "\\r");
+                value = value.replace("\"", "\\\"");
                 cache.append('"').append(value).append('"');
             }
         });
@@ -40,25 +39,22 @@ public class ArticleAction
             public void write(Object field, StringCache cache, Object entity)
             {
                 String value = (String) field;
-                value = value.replace("\"", "\\\"").replace("\r\n", "\\r\\n").replace("\n", "\\n").replace("\r", "\\r");
+                value = value.replace("\"", "\\\"");
                 cache.append('"').append(value).append('"');
             }
         });
     }
     
-    @ActionMethod(resultType = ResultType.String, url = "{id}", methods = { RequestMethod.GET })
-    public String get(int id)
+    @ActionMethod(resultType = ResultType.String, methods = { RequestMethod.POST }, contentType = ContentType.JSON)
+    public String articles(int page, int rows, String title)
     {
+        MysqlPage mysqlPage = new MysqlPage();
+        mysqlPage.setPage(page);
+        mysqlPage.setPageSize(rows);
+        articleService.list(mysqlPage, title);
         BaseResult result = new BaseResult();
-        result.setData(articleService.get(id));
+        result.setTotal(mysqlPage.getTotal());
+        result.setRows(mysqlPage.getData());
         return strategy.write(result);
-    }
-    
-    @ActionMethod(resultType = ResultType.Json, url = "{id}", methods = { RequestMethod.POST })
-    public BaseResult post(int id, @RequestParam("") Article article, HttpServletRequest request)
-    {
-        article.setId(id);
-        articleService.save(article);
-        return new BaseResult();
     }
 }
