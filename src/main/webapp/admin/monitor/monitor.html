@@ -1,0 +1,107 @@
+ <div id="monitor-cpu" style="width: 600px;height:400px;"></div>
+ <div id="monitor-mem" style="width: 600px;height:400px;"></div>
+ <iframe id="monitor-iframe" src="about:blank" style="display: none;" ></iframe> 
+ <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var cpuChart = echarts.init($('#monitor-cpu')[0]);
+        var memChart = echarts.init($('#monitor-mem')[0]);
+		var time = [];
+		var cpuuse =[];
+		var memuse=[];
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'cpu监控信息'
+            },
+            tooltip: {},
+            legend: {
+                data:['占用']
+            },
+            xAxis: {
+                data:time
+            },
+            yAxis: {},
+			  dataZoom: [
+            {
+                type: 'slider',
+                show: true,
+                start: 94,
+                end: 100,
+				orient:'horizontal',
+                handleSize: 8
+            }],
+            series: [{
+                name: '占用',
+                type: 'line',
+                data: cpuuse
+            }]
+        };
+       cpuChart.setOption(option);
+	   option = {
+    series : [
+        {
+            name:'内存占用',
+            type:'gauge',
+            detail : {formatter:'{value}%'},
+            data:[{
+						value: 0,
+						name: '占用率'
+					}]
+        }
+    ]
+};
+memChart.setOption(option);
+	   
+	   
+	   
+		function update(data)
+		{
+			time.push(data.time);
+			cpuuse.push(data.cpuuse);
+			if (time.length >= 50) 
+			{
+				time.shift();
+				cpuuse.shift();
+			}
+			cpuChart.setOption(
+			{
+				xAxis: 
+				{
+					data: time
+				},
+				dataZoom: [
+				{
+					type: 'slider',
+					show: true,
+					start: 94,
+					end: 100,
+					orient: 'horizontal',
+					handleSize: 8
+				}],
+				series: [
+				{
+					name: '占用',
+					data: cpuuse
+				}]
+			});
+			
+			memChart.setOption(
+			{
+				series: [
+				{
+					name: '内存占用',
+					type: 'gauge',
+					detail: 
+					{
+						formatter: '{value}%'
+					},
+					data: [
+					{
+						value: data.memuse,
+						name: '占用率'
+					}]
+				}]
+			});
+		}
+		 $("#monitor-iframe")[0].src = ctx+"/monitor";
+    </script>

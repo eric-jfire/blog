@@ -1,0 +1,43 @@
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'north',collapsible:true,border:false" style="height:60px">
+        <p>
+            <span>标题 :</span>
+            <input id="article-add-title" class="easyui-textbox" type="text" name="title" />
+            <input id="article-add-id" style="display:none"/>
+            <span> </span>
+            <a id="article-add-submit" href="javascript:void(0)" class="easyui-linkbutton" data-options="text:'提交'"></a>
+        </p>
+    </div>
+    <div id="article-markdown-content" data-options="region:'center',border:false,fit:true" style="overflow-y:hidden">
+        <textarea style="display:none"></textarea>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function()
+    {
+        var id = $('#center-tab').tabs('getSelected').panel('options').id;
+        if (id == null) 
+        {
+            testEditor = editormd("article-markdown-content", 
+            {
+                width: "90%",
+                height: "100%",
+                syncScrolling: "single",
+                flowChart: true,
+                sequenceDiagram: true,
+                path: ctx + "/admin/base/editor.md/lib/",
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: ctx + "/admin/imgs",
+                toolbarIcons: function()
+                {
+                    return ["undo", "redo", "image"]
+                },
+            });
+        }
+        else 
+        {
+        
+        }
+    });
+</script>

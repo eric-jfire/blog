@@ -1,0 +1,10 @@
+
+[
+{
+    "text"       : "cpu内存监控",
+    "iconCls"    : "icon-save",
+    "attributes" :
+    {
+        "url" : "monitor/monitor.html"
+    }
+}]

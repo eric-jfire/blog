@@ -10,11 +10,12 @@ import link.jfire.mvc.core.ViewAndModel;
 @ActionClass("/")
 public class IndexAction
 {
-//    private ViewAndModel adminVm = new ViewAndModel("/admin/index.html", true);
     
     @ActionMethod(resultType = ResultType.Beetl)
     public ViewAndModel admin()
     {
+        System.out.println("sdasda");
         return new ViewAndModel("/admin/index.html");
     }
+    
 }

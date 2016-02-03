@@ -9,9 +9,14 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
+			<groupId>org.fusesource</groupId>
+			<artifactId>sigar</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+		<dependency>
 			<groupId>link.jfire</groupId>
 			<artifactId>jfire-mvc</artifactId>
-			<version>1.0.3-SNAPSHOT</version>
+			<version>1.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -27,7 +32,7 @@
 		<dependency>
 			<groupId>link.jfire</groupId>
 			<artifactId>jfire-sql</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
