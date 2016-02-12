@@ -2,35 +2,30 @@ package link.jfire.blog.action;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.AsyncContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hyperic.sigar.Mem;
+import org.hyperic.sigar.Sigar;
+import org.hyperic.sigar.SigarException;
 import link.jfire.codejson.JsonTool;
 import link.jfire.core.ContextInitFinish;
 import link.jfire.mvc.annotation.ActionClass;
 import link.jfire.mvc.annotation.ActionMethod;
 import link.jfire.mvc.config.ResultType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hyperic.sigar.Mem;
-import org.hyperic.sigar.NetInterfaceStat;
-import org.hyperic.sigar.Sigar;
-import org.hyperic.sigar.SigarException;
 
 @Resource
 @ActionClass("monitor")
 public class MonitorAction implements ContextInitFinish
 {
-    private Logger       logger = LogManager.getLogger();
-    private List<String> list   = new ArrayList<>();
+    private Logger logger = LogManager.getLogger();
     
     @ActionMethod(resultType = ResultType.None, url = "/")
     public void monitor(HttpServletRequest request, HttpServletResponse response)
@@ -52,25 +47,8 @@ public class MonitorAction implements ContextInitFinish
                         HashMap<String, String> result = new HashMap<>();
                         try
                         {
-                            long txBytesStart = 0;
-                            long txBytesEnd = 0;
-                            long start = System.currentTimeMillis();
-                            Sigar sigar = new Sigar();
-                            for (String each : list)
-                            {
-                                NetInterfaceStat stat = sigar.getNetInterfaceStat(each);
-                                txBytesStart += stat.getTxBytes();
-                            }
                             Thread.sleep(900);
-                            long end = System.currentTimeMillis();
-                            sigar = new Sigar();
-                            for (String each : list)
-                            {
-                                NetInterfaceStat stat = sigar.getNetInterfaceStat(each);
-                                txBytesEnd += stat.getTxBytes();
-                            }
-                            long txSpeed = (long) ((txBytesEnd - txBytesStart) / 8000 / ((end - start) / 1000f));
-                            sigar = new Sigar();
+                            Sigar sigar = new Sigar();
                             double cpuuse;
                             double memuse;
                             cpuuse = sigar.getCpuPerc().getCombined();
@@ -83,7 +61,6 @@ public class MonitorAction implements ContextInitFinish
                             String content = "<script>window.parent.update(" + JsonTool.write(result) + ")</script>";
                             ac.getResponse().getOutputStream().write(content.getBytes(Charset.forName("utf8")));
                             ac.getResponse().getOutputStream().flush();
-                            
                         }
                         catch (IOException | InterruptedException | SigarException e)
                         {
@@ -100,13 +77,11 @@ public class MonitorAction implements ContextInitFinish
         }
     }
     
-    @Override
     public int getOrder()
     {
         return 100;
     }
     
-    @Override
     public void afterContextInit()
     {
         String name = System.getProperty("os.name");
@@ -116,9 +91,8 @@ public class MonitorAction implements ContextInitFinish
             {
                 File file = new File(this.getClass().getClassLoader().getResource("sigar-amd64-winnt.dll").toURI());
                 System.load(file.getCanonicalPath());
-                
             }
-            catch (URISyntaxException | IOException e)
+            catch (Exception e)
             {
                 logger.error("监控启动失败", e);
             }
@@ -130,29 +104,10 @@ public class MonitorAction implements ContextInitFinish
                 File file = new File(this.getClass().getClassLoader().getResource("libsigar-amd64-linux.so").toURI());
                 System.load(file.getCanonicalPath());
             }
-            catch (URISyntaxException | IOException e)
+            catch (Exception e)
             {
                 logger.error("监控启动失败", e);
             }
         }
-        Sigar sigar = new Sigar();
-        try
-        {
-            for (String each : sigar.getNetInterfaceList())
-            {
-                try
-                {
-                    sigar.getNetInterfaceStat(each);
-                    list.add(each);
-                }
-                catch (SigarException e)
-                {
-                }
-            }
-        }
-        catch (SigarException e)
-        {
-        }
-        logger.debug("获取网卡信息完毕");
     }
 }

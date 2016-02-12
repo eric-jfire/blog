@@ -97,8 +97,8 @@
                     data: 
                     {
                         markdown: false,
-                        text_content: ue.getContent(),
-                        html_content: ue.getContent(),
+                        text_content: editor.$txt.html(),
+                        html_content: editor.$txt.html(),
                         title: $('#article-add-title').textbox('getText')
                     },
                     success: function(result)

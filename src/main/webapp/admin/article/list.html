@@ -1,5 +1,5 @@
 <div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'north',title:'过滤条件',collapsible:true" style="height:32%">
+    <div data-options="region:'north',title:'过滤条件',collapsible:true" style="height:140px">
         <p>
             <span>
                 标题 :
@@ -47,7 +47,6 @@
         $("#article-list-table").datagrid('options').queryParams = queryParams;
         $("#article-list-table").datagrid('load');
     }
-    
     function resetArticlesQuery()
     {
         $('#article-list-query-title').textbox('reset');
@@ -115,7 +114,7 @@
                 });
                 $.ajax(
                 {
-                    url: ctx + "/articles/" + names.join('-'),
+                    url: ctx + "/article/" + names.join('-'),
                     type: 'delete',
                     dataType: 'json',
                     success: function()

@@ -14,7 +14,6 @@ public class IndexAction
     @ActionMethod(resultType = ResultType.Beetl)
     public ViewAndModel admin()
     {
-        System.out.println("sdasda");
         return new ViewAndModel("/admin/index.html");
     }
     

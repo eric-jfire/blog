@@ -48,6 +48,7 @@ public class QueryAction
     @ActionMethod(resultType = ResultType.String, methods = { RequestMethod.POST }, contentType = ContentType.JSON)
     public String articles(int page, int rows, String title)
     {
+//        System.out.println("sdsdadaas");
         MysqlPage mysqlPage = new MysqlPage();
         mysqlPage.setPage(page);
         mysqlPage.setPageSize(rows);

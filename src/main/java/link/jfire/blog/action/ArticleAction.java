@@ -1,7 +1,6 @@
 package link.jfire.blog.action;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import link.jfire.baseutil.collection.StringCache;
 import link.jfire.blog.entity.Article;
 import link.jfire.blog.service.ArticleService;
@@ -55,10 +54,24 @@ public class ArticleAction
     }
     
     @ActionMethod(resultType = ResultType.Json, url = "{id}", methods = { RequestMethod.POST })
-    public BaseResult post(int id, @RequestParam("") Article article, HttpServletRequest request)
+    public BaseResult post(@RequestParam("") Article article, int id)
     {
         article.setId(id);
         articleService.save(article);
         return new BaseResult();
     }
+    
+    @ActionMethod(resultType = ResultType.Json, url = "{ids}", methods = { RequestMethod.DELETE })
+    public BaseResult delete(String ids)
+    {
+        String[] tmp = ids.split("-");
+        int[] int_ids = new int[tmp.length];
+        for (int i = 0, l = tmp.length; i < l; i++)
+        {
+            int_ids[i] = Integer.valueOf(tmp[i]);
+        }
+        articleService.delete(int_ids);
+        return new BaseResult();
+    }
+    
 }

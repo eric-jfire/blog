@@ -3,6 +3,8 @@
 	<name>blog</name>
 	<comment></comment>
 	<projects>
+		<project>jfire-mvc</project>
+		<project>jfire-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
