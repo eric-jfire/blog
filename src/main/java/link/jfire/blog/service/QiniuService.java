@@ -13,9 +13,10 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 
 @Resource
-public class UploadToQiniuService
+public class QiniuService
 {
     private String                 domain;
+    private int                    domainLength;
     private String                 accessKey;
     private String                 secretKey;
     private BucketManager          bucketManager;
@@ -30,6 +31,7 @@ public class UploadToQiniuService
     public void init()
     {
         bucketManager = new BucketManager(Auth.create(accessKey, secretKey));
+        domainLength = domain.length();
     }
     
     public String getDomain()
@@ -53,6 +55,19 @@ public class UploadToQiniuService
         catch (IOException e)
         {
             throw new RuntimeException(e);
+        }
+    }
+    
+    public void delete(String url)
+    {
+        try
+        {
+            System.out.println(url.substring(domainLength));
+            bucketManager.delete("blog", url.substring(domainLength));
+        }
+        catch (QiniuException e)
+        {
+            e.printStackTrace();
         }
     }
 }

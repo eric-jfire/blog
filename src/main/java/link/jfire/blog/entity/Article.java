@@ -14,6 +14,7 @@ public class Article
     private String          html_content;
     private Date            createtime;
     private Date            updatetime;
+    private String          imgs;
     private int             type;
     public static final int NORMAL   = 0;
     public static final int TOP      = 1;
@@ -21,6 +22,16 @@ public class Article
     private boolean         markdown;
     public static final int HTML     = 0;
     public static final int MARKDOWN = 1;
+                                     
+    public String getImgs()
+    {
+        return imgs;
+    }
+    
+    public void setImgs(String imgs)
+    {
+        this.imgs = imgs;
+    }
     
     public int getType()
     {

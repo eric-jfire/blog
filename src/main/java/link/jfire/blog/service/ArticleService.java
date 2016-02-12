@@ -28,7 +28,7 @@ public class ArticleService
     private ServletContext servletContext;
     @Resource
     private ViewAction     viewAction;
-    
+                           
     @Transaction
     public void save(Article article)
     {
@@ -42,7 +42,7 @@ public class ArticleService
         else
         {
             article.setUpdatetime(new Date());
-            baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime,title");
+            baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime,title,imgs");
         }
         String path = servletContext.getRealPath("/view");
         if (article.isMarkdown())
@@ -82,6 +82,12 @@ public class ArticleService
     public Article get(int id)
     {
         return baseDao.getSession().get(Article.class, id);
+    }
+    
+    @AutoCloseResource
+    public String getImgs(int id)
+    {
+        return baseDao.getSession().get(Article.class, id, "imgs").getImgs();
     }
     
     @Transaction

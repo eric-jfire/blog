@@ -68,19 +68,6 @@
                         $('#article-add-id').val(result.data.id);
                         $('#article-add-title').textbox('setValue', result.data.title);
                         editor.$txt.html(result.data.text_content);
-                        $.ajax(
-                        {
-                            url: ctx + '/article',
-                            type: 'put',
-                            data: 
-                            {
-                                id: $('#article-add-id').val(),
-                                markdown: false,
-                                html_content: editor.$txt.html(),
-                                text_content: editor.$txt.html(),
-                                title: $('#article-add-title').textbox('getText')
-                            }
-                        });
                     }
                     else 
                     {

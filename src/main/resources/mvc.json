@@ -5,7 +5,7 @@
     ],
     "beanConfigs": [
         {
-            "beanName": "link.jfire.blog.service.UploadToQiniuService",
+            "beanName": "link.jfire.blog.service.QiniuService",
             "params": {
                 "accessKey": "uzZO3Md5ObNCTrEmWuAi-UsGNXPD4ujS__7ohXgH",
                 "secretKey": "HNFaY2qKJ8Se3ehCG-nBPQkODTNFNDollV5-vRmB",
