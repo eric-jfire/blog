@@ -13,4 +13,7 @@ public interface ArticleOp
     
     @Update(sql = "delete from Article where id in $~ids", paramNames = { "ids" })
     public void delete(int[] ids);
+    
+    @Query(sql = "select id,title,text_content,markdown,category from Article", paramNames = {})
+    public List<Article> listWithContent();
 }

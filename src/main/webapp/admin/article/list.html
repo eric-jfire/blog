@@ -162,6 +162,21 @@
                     });
                 }
             }
+        },'-', 
+        {
+            iconCls: 'icon-edit',
+            text: '查看',
+            handler: function()
+            {
+                if ($('#article-list-table').datagrid('getSelected') == null) 
+                {
+                    $.messager.alert("通知", "请先选择一条记录");
+                    return;
+                }
+                var row = $('#article-list-table').datagrid('getSelected');
+                var url;
+                window.open(ctx+'/view/article/'+row.id);
+            }
         }]
     });
 </script>

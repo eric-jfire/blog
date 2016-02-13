@@ -18,7 +18,7 @@ public class ViewAction
     @Resource
     private ServletContext                     servletContext;
     private ConcurrentHashMap<Integer, byte[]> views = new ConcurrentHashMap<>();
-    
+                                                     
     @ActionMethod(resultType = ResultType.Bytes, contentType = "text/html", methods = { RequestMethod.GET }, url = "article/{id}")
     public byte[] article(int id)
     {
@@ -38,7 +38,6 @@ public class ViewAction
         }
         catch (IOException e)
         {
-            e.printStackTrace();
             return null;
         }
         

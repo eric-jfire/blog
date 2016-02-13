@@ -15,6 +15,11 @@
 		</dependency>
 		<dependency>
 			<groupId>link.jfire</groupId>
+			<artifactId>job</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>link.jfire</groupId>
 			<artifactId>jfire-mvc</artifactId>
 			<version>1.0.4-SNAPSHOT</version>
 		</dependency>

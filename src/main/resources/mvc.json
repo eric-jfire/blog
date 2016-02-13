@@ -41,6 +41,14 @@
                 "validationQuery": "select id from user where id=1",
                 "timeBetweenEvictionRunsMillis": "3600000"
             }
+        },
+         {
+            "beanName": "link.jfire.job.JobManager",
+            "className": "link.jfire.job.JobManager",
+            "prototype": false,
+            "initMethods": [
+                "start"
+            ]
         }
     ]
 }
