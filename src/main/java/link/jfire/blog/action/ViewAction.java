@@ -22,10 +22,10 @@ public class ViewAction
     @ActionMethod(resultType = ResultType.Bytes, contentType = "text/html", methods = { RequestMethod.GET }, url = "article/{id}")
     public byte[] article(int id)
     {
-        if (views.containsKey(id))
-        {
-            return views.get(id);
-        }
+//        if (views.containsKey(id))
+//        {
+//            return views.get(id);
+//        }
         try
         {
             String path = servletContext.getRealPath("view");

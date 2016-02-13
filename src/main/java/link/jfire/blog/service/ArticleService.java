@@ -45,30 +45,31 @@ public class ArticleService
             baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime,title,imgs");
         }
         String path = servletContext.getRealPath("/view");
-        if (article.isMarkdown())
+        try
         {
-        }
-        else
-        {
-            try
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(path + File.separator + article.getId()));
+            Map<String, Object> data = new HashMap<String, Object>();
+            data.put("title", article.getTitle());
+            data.put("content", article.getText_content());
+            if (article.isMarkdown())
             {
-                FileOutputStream fileOutputStream = new FileOutputStream(new File(path + File.separator + article.getId()));
-                Map<String, Object> data = new HashMap<String, Object>();
-                data.put("title", article.getTitle());
-                data.put("content", article.getText_content());
+                render.render("/admin/template/md.html", data, servletContext, fileOutputStream);
+            }
+            else
+            {
                 render.render("/admin/template/richtext.html", data, servletContext, fileOutputStream);
-                fileOutputStream.close();
-                viewAction.delete(article.getId());
             }
-            catch (FileNotFoundException e)
-            {
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            viewAction.delete(article.getId());
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
     

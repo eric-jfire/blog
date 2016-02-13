@@ -106,6 +106,7 @@ public class ArticleAction
                 }
             }
         }
+        session.setAttribute(ImgsAction.TMP_IMGS, null);
         article.setText_content(content);
         article.setImgs(cache.toString());
         articleService.save(article);

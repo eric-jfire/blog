@@ -50,7 +50,7 @@ public class QiniuService
         {
             byte[] src = new byte[inputStream.available()];
             inputStream.read(src);
-            return qiniuUtils.get().upload(src);
+            return qiniuUtils.get().upload(src, String.valueOf(System.nanoTime()));
         }
         catch (IOException e)
         {
@@ -102,6 +102,13 @@ class QiniuUtil
     {
         Response response1 = uploadManager.put(src, null, getToken());
         return domain + ((JsonObject) JsonTool.fromString(response1.bodyString())).getWString("key");
+    }
+    
+    public String upload(byte[] src, String key) throws QiniuException
+    {
+        Response response1 = uploadManager.put(src, key, getToken());
+        return domain + ((JsonObject) JsonTool.fromString(response1.bodyString())).getWString("key");
+        
     }
     
     public void delete(String key)
