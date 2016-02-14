@@ -3,6 +3,7 @@ package link.jfire.blog.action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -68,8 +69,8 @@ public class ArticleAction
     }
     
     @SuppressWarnings("unchecked")
-    @ActionMethod(resultType = ResultType.Json, url = "{id}", methods = { RequestMethod.POST })
-    public BaseResult post(@RequestParam("") Article article, int id, HttpSession session)
+    @ActionMethod(resultType = ResultType.Json, url = "{id}", methods = { RequestMethod.PUT })
+    public BaseResult put(@RequestParam("") Article article, int id, HttpSession session)
     {
         article.setId(id);
         String content = article.getText_content();
@@ -126,4 +127,46 @@ public class ArticleAction
         return new BaseResult();
     }
     
+    @SuppressWarnings("unchecked")
+    @ActionMethod(resultType = ResultType.Json, url = "/", methods = { RequestMethod.POST })
+    public BaseResult post(@RequestParam("") Article article, HttpSession session)
+    {
+        List<String> urls = (List<String>) session.getAttribute(ImgsAction.TMP_IMGS);
+        StringCache cache = new StringCache();
+        if (urls != null)
+        {
+            Iterator<String> it = urls.iterator();
+            String content = article.getText_content();
+            while (it.hasNext())
+            {
+                String each = it.next();
+                if (content.contains(each) == false)
+                {
+                    it.remove();
+                }
+            }
+            for (String each : urls)
+            {
+                int index = each.indexOf("tmpimg");
+                FileInputStream inputStream;
+                try
+                {
+                    inputStream = new FileInputStream(new File(dir, each.substring(index + 6)));
+                    String url = qiniuService.upload(inputStream);
+                    inputStream.close();
+                    content = content.replace(each, url);
+                    cache.append(url).appendComma();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            article.setText_content(content);
+        }
+        session.setAttribute(ImgsAction.TMP_IMGS, null);
+        article.setImgs(cache.toString());
+        articleService.save(article);
+        return new BaseResult();
+    }
 }

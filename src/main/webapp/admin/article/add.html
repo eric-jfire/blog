@@ -28,7 +28,7 @@
             {
                 $.ajax(
                 {
-                    url: ctx + '/articles',
+                    url: ctx + '/article',
                     type: 'post',
                     data: 
                     {
@@ -80,7 +80,7 @@
                 $.ajax(
                 {
                     url: ctx + '/article/' + id,
-                    type: 'post',
+                    type: 'put',
                     data: 
                     {
                         markdown: false,

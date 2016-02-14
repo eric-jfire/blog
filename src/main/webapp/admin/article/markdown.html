@@ -72,7 +72,7 @@
                         $.ajax(
                         {
                             url: ctx + '/article/'+id,
-                            type: 'post',
+                            type: 'put',
                             data: 
                             {
                                 markdown: true,
@@ -103,7 +103,7 @@
                     {
                         $.ajax(
                         {
-                            url: ctx + '/articles',
+                            url: ctx + '/article',
                             type: 'post',
                             data: 
                             {
