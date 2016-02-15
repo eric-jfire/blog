@@ -1,8 +1,6 @@
 package link.jfire.blog.listener;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.Charset;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,18 +9,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import link.jfire.mvc.interceptor.impl.DataBinderInterceptor;
-import link.jfire.mvc.util.PutRequestHelpFilter;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebFilter(value = "/*")
-public class PutMethodFilter extends PutRequestHelpFilter
+public class LoginFilter implements Filter
 {
-    private Charset charset = Charset.forName("utf-8");
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        // TODO Auto-generated method stub
         
     }
     
@@ -30,13 +26,16 @@ public class PutMethodFilter extends PutRequestHelpFilter
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
     {
         HttpServletRequest rq = (HttpServletRequest) request;
-        if (rq.getMethod().equals("PUT"))
+        HttpSession session = rq.getSession();
+        String path = rq.getRequestURI();
+        if (path.endsWith("login"))
         {
-            request.setCharacterEncoding("utf-8");
-            byte[] src = new byte[rq.getContentLength()];
-            rq.getInputStream().read(src);
-            request.setAttribute(DataBinderInterceptor.DATABINDERKEY, URLDecoder.decode(new String(src, charset), "utf-8"));
             chain.doFilter(request, response);
+            return;
+        }
+        if (session.getAttribute("code") == null)
+        {
+            ((HttpServletResponse) response).sendRedirect(request.getServletContext().getContextPath() + "/login");
         }
         else
         {

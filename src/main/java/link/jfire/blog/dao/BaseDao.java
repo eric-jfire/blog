@@ -42,4 +42,9 @@ public class BaseDao
     {
         return getSession().getMapper(ArticleOp.class);
     }
+    
+    public LoginOp getLoginOp()
+    {
+        return getSession().getMapper(LoginOp.class);
+    }
 }
