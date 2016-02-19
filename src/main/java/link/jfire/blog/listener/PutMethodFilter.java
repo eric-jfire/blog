@@ -3,7 +3,6 @@ package link.jfire.blog.listener;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import link.jfire.mvc.interceptor.impl.DataBinderInterceptor;
 import link.jfire.mvc.util.PutRequestHelpFilter;
 
-@WebFilter(value = "/*")
+@WebFilter(value = "/*", asyncSupported = true)
 public class PutMethodFilter extends PutRequestHelpFilter
 {
     private Charset charset = Charset.forName("utf-8");
