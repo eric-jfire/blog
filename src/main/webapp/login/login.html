@@ -1,6 +1,4 @@
-﻿<html>
-<!DOCTYPE html>
-<html lang="en" class="no-js">
+﻿<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <title>登录(Login)</title>
@@ -17,33 +15,40 @@
         <![endif]-->
 <script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script type="text/javascript">
-	var ctx = "${ctxPath}";
-	$(function() {
-		$('#submitbutton').click(function() {
-			if ($('#code').val() == null || $('#code').val() == '') {
-				alert("请输入验证码");
-				return;
-			}
-			$.ajax({
-				url : "${ctxPath}/login",
-				type : 'put',
-				dataType : 'json',
-				data : $('#loginform').serialize(),
-				success : function(result) {
-					if (result.success) {
-						window.location.href = ctx + "/admin";
-					}
-				}
-			});
-		});
-	});
+    var ctx = "${ctxPath}";
+    $(function()
+    {
+        $('#submitbutton').click(function()
+        {
+            if ($('#code').val() == null || $('#code').val() == '')
+            {
+                alert("请输入验证码");
+                return;
+            }
+            $.ajax(
+            {
+                url : "${ctxPath}/admin/admins/" + $('#username').val() + "/" + $.md5($.md5($('#password').val()) + $('#code').val()) + "/" + $('#code').val(),
+                type : 'get',
+                dataType : 'json',
+                success : function(result)
+                {
+                    if (result.success)
+                    {
+                        window.location.href = ctx + "/admin";
+                    }
+                }
+            });
+        });
+    });
 </script>
 </head>
 <body>
 	<div class="page-container">
 		<h1>登录(Login)</h1>
 		<form id="loginform" action="" method="post">
-			<input type="text" name="username" class="username" placeholder="请输入您的用户名！"> <input type="password" name="password" class="password" placeholder="请输入您的用户密码！"> <input id="code" type="Captcha" class="Captcha" name="code" placeholder="请输入验证码！">
+			<input id="username" type="text" name="username" class="username" placeholder="请输入您的用户名！">
+			<input id="password" type="password" name="password" class="password" placeholder="请输入您的用户密码！">
+			<input id="code" type="Captcha" class="Captcha" name="code" placeholder="请输入验证码！">
 			<button id="submitbutton" type="button" class="submit_button">登录</button>
 			<div class="error">
 				<span>+</span>
@@ -54,5 +59,6 @@
 	<script src="${ctxPath}/login/assets/js/supersized.3.2.7.min.js"></script>
 	<script src="${ctxPath}/login/assets/js/supersized-init.js"></script>
 	<script src="${ctxPath}/login/assets/js/scripts.js"></script>
+	<script src="${ctxPath}/login/assets/js/jQuery.md5.js"></script>
 </body>
 </html>

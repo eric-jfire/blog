@@ -1,4 +1,4 @@
-package link.jfire.blog.vo;
+package cn.jfire.blog.vo;
 
 import java.util.HashMap;
 import java.util.Map;

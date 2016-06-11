@@ -1,15 +1,15 @@
-package link.jfire.blog.job;
+package cn.jfire.blog.job;
 
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
-import link.jfire.blog.dao.BaseDao;
-import link.jfire.blog.entity.Article;
-import link.jfire.blog.service.ArticleService;
-import link.jfire.core.ContextInitFinish;
-import link.jfire.job.Job;
-import link.jfire.job.JobManager;
-import link.jfire.job.trigger.impl.SimpleIntervalTrigger;
+import com.jfireframework.context.ContextInitFinish;
+import com.jfireframework.job.Job;
+import com.jfireframework.job.JobManager;
+import com.jfireframework.job.trigger.impl.SimpleIntervalTrigger;
+import cn.jfire.blog.dao.BaseDao;
+import cn.jfire.blog.entity.Article;
+import cn.jfire.blog.service.ArticleService;
 
 @Resource
 public class InitArticleViewJob implements Job, ContextInitFinish

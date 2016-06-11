@@ -1,46 +1,33 @@
-package link.jfire.blog.entity;
+package cn.jfire.blog.entity;
 
 import java.util.Date;
-import link.jfire.sql.annotation.Id;
-import link.jfire.sql.annotation.TableEntity;
+import com.jfireframework.sql.annotation.Id;
+import com.jfireframework.sql.annotation.TableEntity;
 
 @TableEntity(name = "article")
 public class Article
 {
     @Id
-    private Integer         id;
-    private String          title;
-    private String          text_content;
-    private String          html_content;
-    private Date            createtime;
-    private Date            updatetime;
-    private String          imgs;
-    private int             type;
-    public static final int NORMAL   = 0;
-    public static final int TOP      = 1;
-    private String          category;
-    private boolean         markdown;
-    public static final int HTML     = 0;
-    public static final int MARKDOWN = 1;
-                                     
-    public String getImgs()
+    private Integer id;
+    private String  title;
+    private String  text_content;
+    private String  html_content;
+    private Date    createtime;
+    private Date    updatetime;
+    // 是否置顶
+    private boolean top = false;
+    private String  category;
+    // 是否是markdown文章
+    private boolean markdown;
+    
+    public boolean isTop()
     {
-        return imgs;
+        return top;
     }
     
-    public void setImgs(String imgs)
+    public void setTop(boolean top)
     {
-        this.imgs = imgs;
-    }
-    
-    public int getType()
-    {
-        return type;
-    }
-    
-    public void setType(int type)
-    {
-        this.type = type;
+        this.top = top;
     }
     
     public boolean isMarkdown()

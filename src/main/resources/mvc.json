@@ -1,26 +1,21 @@
 {
     "packageNames": [
-        "link.jfire.blog",
-        "link.jfire.sql"
+        "cn.jfire.blog"
     ],
+    "encode": "utf8",
+	"report": true,
+	"devMode":true,
+	"reloadPackages":["cn.jfire.blog"],
+	"reloadPaths":["E:/blog/target/classes"],
     "beanConfigs": [
         {
-            "beanName": "link.jfire.blog.service.QiniuService",
-            "params": {
-                "accessKey": "uzZO3Md5ObNCTrEmWuAi-UsGNXPD4ujS__7ohXgH",
-                "secretKey": "HNFaY2qKJ8Se3ehCG-nBPQkODTNFNDollV5-vRmB",
-                "domain": "http://7xplb5.com1.z0.glb.clouddn.com/"
-            }
-        },
-        {
-            "beanName": "link.jfire.sql.function.impl.SessionFactoryImpl",
-            "params": {
-                "scanPackage": "link.jfire.blog"
-            },
-            "initMethods": [
-                "init"
-            ]
-        }
+			"beanName": "com.jfireframework.sql.function.impl.SessionFactoryImpl",
+			"params": {
+				"scanPackage": "cn.jfire.blog",
+				"dbType": "MariaDB",
+				"tableMode": "update"
+			}
+		}
     ],
     "beans": [
         {
@@ -30,7 +25,7 @@
             "params": {
                 "jdbcUrl": "jdbc:mysql://localhost:3306/blog?characterEncoding=utf-8",
                 "username": "root",
-                "password": "Starnetsql1019",
+                "password": "centerm",
                 "testWhileIdle": "true",
                 "maxWait": "500",
                 "useUnfairLock": "true",
@@ -43,8 +38,8 @@
             }
         },
          {
-            "beanName": "link.jfire.job.JobManager",
-            "className": "link.jfire.job.JobManager",
+            "beanName": "com.jfireframework.job.JobManager",
+            "className": "com.jfireframework.job.JobManager",
             "prototype": false,
             "initMethods": [
                 "start"

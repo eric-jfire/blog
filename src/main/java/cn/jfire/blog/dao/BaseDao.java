@@ -1,8 +1,8 @@
-package link.jfire.blog.dao;
+package cn.jfire.blog.dao;
 
 import javax.annotation.Resource;
-import link.jfire.sql.function.SessionFactory;
-import link.jfire.sql.function.SqlSession;
+import com.jfireframework.sql.function.SessionFactory;
+import com.jfireframework.sql.function.SqlSession;
 
 @Resource
 public class BaseDao
@@ -43,8 +43,9 @@ public class BaseDao
         return getSession().getMapper(ArticleOp.class);
     }
     
-    public LoginOp getLoginOp()
+    public AdminOp getAdminOp()
     {
-        return getSession().getMapper(LoginOp.class);
+        return getSession().getMapper(AdminOp.class);
     }
+    
 }

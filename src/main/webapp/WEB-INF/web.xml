@@ -4,20 +4,4 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>Archetype Created Web Application</display-name>
-	<servlet>
-		<servlet-name>EasyMvcDispathServlet</servlet-name>
-		<servlet-class>link.jfire.mvc.core.EasyMvcDispathServlet</servlet-class>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>monitorPath</param-name>
-			<param-value>E:/workspace/blog/target/classes</param-value>
-		</init-param>
-		<init-param>
-			<param-name>reloadPackages</param-name>
-			<param-value>link.jfire.blog</param-value>
-		</init-param>
-	</servlet>
 </web-app>

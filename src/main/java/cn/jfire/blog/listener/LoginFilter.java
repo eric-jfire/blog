@@ -1,4 +1,4 @@
-package link.jfire.blog.listener;
+package cn.jfire.blog.listener;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -10,7 +10,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebFilter(value = "/*")
 public class LoginFilter implements Filter
@@ -26,21 +25,37 @@ public class LoginFilter implements Filter
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
     {
         HttpServletRequest rq = (HttpServletRequest) request;
-        HttpSession session = rq.getSession();
-        String path = rq.getRequestURI();
-        if (path.endsWith("login"))
+        if (permit(rq))
         {
             chain.doFilter(request, response);
-            return;
-        }
-        if (session.getAttribute("code") == null)
-        {
-            ((HttpServletResponse) response).sendRedirect(request.getServletContext().getContextPath() + "/login");
         }
         else
         {
-            chain.doFilter(request, response);
+            ((HttpServletResponse) response).sendRedirect(request.getServletContext().getContextPath() + "/admin");
         }
+    }
+    
+    private boolean permit(HttpServletRequest request)
+    {
+        if (request.getSession().getAttribute("admin") != null)
+        {
+            System.out.println("登陆后放行");
+            return true;
+        }
+        String path = request.getRequestURI();
+        if (path.endsWith("/admin") //
+                || path.endsWith(".js") //
+                || path.endsWith(".jpg")//
+                || path.endsWith(".css") //
+                || path.endsWith("gif"))
+        {
+            return true;
+        }
+        if (path.startsWith(request.getServletContext().getContextPath() + "/admin/admins") && request.getMethod().equals("GET"))
+        {
+            return true;
+        }
+        return false;
     }
     
     @Override

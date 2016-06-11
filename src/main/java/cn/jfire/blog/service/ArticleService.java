@@ -1,4 +1,4 @@
-package link.jfire.blog.service;
+package cn.jfire.blog.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,16 +7,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
-import link.jfire.blog.action.ViewAction;
-import link.jfire.blog.dao.BaseDao;
-import link.jfire.blog.entity.Article;
-import link.jfire.core.aop.annotation.AutoCloseResource;
-import link.jfire.core.aop.annotation.Transaction;
-import link.jfire.core.bean.annotation.field.InitMethod;
-import link.jfire.mvc.util.BeetlRender;
-import link.jfire.sql.page.MysqlPage;
+import com.jfireframework.context.aop.annotation.AutoCloseResource;
+import com.jfireframework.context.aop.annotation.Transaction;
+import com.jfireframework.mvc.util.BeetlRender;
+import com.jfireframework.sql.page.MysqlPage;
+import cn.jfire.blog.dao.BaseDao;
+import cn.jfire.blog.entity.Article;
 
 @Resource
 public class ArticleService
@@ -27,14 +26,12 @@ public class ArticleService
     private BeetlRender    render;
     @Resource
     private ServletContext servletContext;
-    @Resource
-    private ViewAction     viewAction;
     private String         path;
-                           
-    @InitMethod
+    
+    @PostConstruct
     public void init()
     {
-        path = servletContext.getRealPath("/view");
+        path = servletContext.getRealPath("/article");
     }
     
     @Transaction
@@ -44,13 +41,13 @@ public class ArticleService
         {
             article.setCreatetime(new Date());
             article.setUpdatetime(article.getCreatetime());
-            article.setType(Article.NORMAL);
+            article.setTop(false);
             baseDao.save(article);
         }
         else
         {
             article.setUpdatetime(new Date());
-            baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime,title,imgs");
+            baseDao.getSession().selectUpdate(article, "text_content,html_content,updatetime,title,top");
         }
         try
         {
@@ -77,7 +74,6 @@ public class ArticleService
             {
                 render.render("/admin/template/richtext.html", data, servletContext, fileOutputStream);
             }
-            viewAction.delete(article.getId());
         }
         catch (IOException e)
         {
@@ -101,12 +97,6 @@ public class ArticleService
     public Article get(int id)
     {
         return baseDao.getSession().get(Article.class, id);
-    }
-    
-    @AutoCloseResource
-    public String getImgs(int id)
-    {
-        return baseDao.getSession().get(Article.class, id, "imgs").getImgs();
     }
     
     @Transaction
