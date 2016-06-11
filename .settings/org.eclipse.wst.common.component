@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="blog">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+<<<<<<< HEAD
         <dependent-module archiveName="extra-wx-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/extra-wx/extra-wx">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -16,6 +18,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jfire-context-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jfire-context/jfire-context">
+=======
+        <dependent-module archiveName="jfire-sql-1.0.4.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jfire-sql/jfire-sql">
+>>>>>>> origin/master
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/blog/src/main/webapp/WEB-INF/classes"/>

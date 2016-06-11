@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(value = "/*")
+@WebFilter(value = "/*", asyncSupported = true)
 public class LoginFilter implements Filter
 {
     
